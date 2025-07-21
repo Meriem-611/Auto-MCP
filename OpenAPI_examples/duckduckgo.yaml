@@ -1,0 +1,115 @@
+openapi: 3.0.3
+info:
+  title: DuckDuckGo Instant Answer API
+  version: "1.0.0"
+  description: |
+    The DuckDuckGo Instant Answer API provides free access to various instant answers such as topic summaries, categories, disambiguation, and !bang redirects. Note that this API does not return full search results.
+servers:
+  - url: https://api.duckduckgo.com
+paths:
+  /:
+    get:
+      summary: Retrieve instant answers for a search query
+      operationId: getInstantAnswer
+      parameters:
+        - name: q
+          in: query
+          description: The search query string.
+          required: true
+          schema:
+            type: string
+        - name: format
+          in: query
+          description: Response format (json or xml).
+          required: false
+          schema:
+            type: string
+            enum: [json, xml]
+            default: json
+        - name: no_html
+          in: query
+          description: Set to 1 to remove HTML from text.
+          required: false
+          schema:
+            type: integer
+            enum: [0, 1]
+            default: 0
+        - name: no_redirect
+          in: query
+          description: Set to 1 to skip HTTP redirects.
+          required: false
+          schema:
+            type: integer
+            enum: [0, 1]
+            default: 0
+        - name: skip_disambig
+          in: query
+          description: Set to 1 to skip disambiguation.
+          required: false
+          schema:
+            type: integer
+            enum: [0, 1]
+            default: 0
+        - name: callback
+          in: query
+          description: Function name for JSONP callbacks.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response with instant answer data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Abstract:
+                    type: string
+                    description: Instant answer abstract text.
+                  AbstractText:
+                    type: string
+                    description: Plain text version of the abstract.
+                  AbstractSource:
+                    type: string
+                    description: Source of the abstract.
+                  AbstractURL:
+                    type: string
+                    description: URL to the abstract source.
+                  Image:
+                    type: string
+                    description: URL to an image relevant to the query.
+                  Heading:
+                    type: string
+                    description: Heading text for the instant answer.
+                  RelatedTopics:
+                    type: array
+                    description: List of related topics.
+                    items:
+                      type: object
+                      properties:
+                        Text:
+                          type: string
+                          description: Description of the related topic.
+                        FirstURL:
+                          type: string
+                          description: URL to the related topic.
+                        Icon:
+                          type: object
+                          properties:
+                            URL:
+                              type: string
+                              description: URL to the icon image.
+                            Height:
+                              type: string
+                              description: Height of the icon image.
+                            Width:
+                              type: string
+                              description: Width of the icon image.
+                  Type:
+                    type: string
+                    description: Type of instant answer (e.g., A, D, etc.).
+        '400':
+          description: Bad request due to missing or invalid parameters.
+        '500':
+          description: Internal server error.

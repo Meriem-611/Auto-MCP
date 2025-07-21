@@ -1,0 +1,45 @@
+openapi: 3.0.0
+info:
+  title: Deck of Cards API
+  description: |
+    An API to simulate a deck of cards. This API can be used to build card games of all types. New decks may be created using a single deck of 52 cards, or multiple decks may be used to create a large deck of cards. 
+    
+    This API supports the following capabilities - 
+    
+    * Create a new deck, shuffled or unshuffled (order preserved)
+    * Reshuffle an existing deck
+    * Draw one or more cards from an existing deck
+    * Create piles of cards that can receive a draw
+    * Create a new deck with a specific set of cards
+    
+    The API offers images of each card for easy display. 
+    
+  contact: {}
+  version: '1.0'
+servers:
+- url: https://www.deckofcardsapi.com/api/
+  variables: {}
+paths:
+  "/deck/new/":
+    post:
+      summary: Create a Shuffled Deck
+      operationId: NewShuffledDeck
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  deck_id:
+                    type: string
+                  remaining:
+                    type: integer
+                    format: int32
+                  shuffled:
+                    type: boolean
+      security: []
+tags: []

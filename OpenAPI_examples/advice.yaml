@@ -1,0 +1,116 @@
+openapi: 3.0.3
+info:
+  title: Advice Slip API
+  description: |
+    The Advice Slip JSON API is provided for free. 😎 It currently gives out over 10 million pieces of advice every year.
+  version: 1.0.0
+servers:
+  - url: https://api.adviceslip.com
+paths:
+  /advice:
+    get:
+      summary: Random advice
+      description: Get random advice
+      operationId: getRandom
+      responses:
+        '200':
+          description: Success operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  slip:
+                    $ref: '#/components/schemas/Slip'
+  /advice/{slip_id}:
+    get:
+      summary: Get single slip.
+      description: Get a single advice slip by id
+      operationId: getAdviceById
+      parameters:
+        - name: slip_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Success operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  slip:
+                    $ref: '#/components/schemas/Slip'
+        '404':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /advice/search/{query}:
+    get:
+      summary: Search advices
+      description: Search for advice
+      parameters:
+        - name: query
+          in: path
+          required: true
+          description: needs to be url-encoded
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Search'
+        '404':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Slip:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Id of the advice slip
+        advice:
+          type: string
+          description: Text of the advice
+        date:
+          type: string
+      required:
+        - id
+        - advice
+    Search:
+      type: object
+      properties:
+        total_results:
+          type: string
+          description: Number of results in the response
+        query:
+          type: string
+          description: The search query provided
+        slips:
+          type: array
+          items:
+            $ref: '#/components/schemas/Slip'
+    Error:
+      type: object
+      properties:
+        message:
+          type: object
+          properties:
+            type:
+              type: string
+              example: notice
+            text:
+              type: string
+              example: Advice slip not found.

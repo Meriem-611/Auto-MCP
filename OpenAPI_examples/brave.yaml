@@ -1,0 +1,183 @@
+openapi: 3.0.3
+info:
+  title: Brave Web Search API
+  version: "1.0.0"
+  description: >
+    Access Brave's independent web search results via RESTful API.
+    Requires an API key via the X-Subscription-Token header.
+servers:
+  - url: https://api.search.brave.com/res/v1
+paths:
+  /web/search:
+    get:
+      summary: Perform a web search
+      operationId: searchWeb
+      parameters:
+        - name: q
+          in: query
+          description: Search query string (max 400 characters or 50 words)
+          required: true
+          schema:
+            type: string
+        - name: count
+          in: query
+          description: Number of results to return (max 20)
+          required: false
+          schema:
+            type: integer
+            default: 20
+            maximum: 20
+        - name: offset
+          in: query
+          description: Page offset (0-based index, max 9)
+          required: false
+          schema:
+            type: integer
+            default: 0
+            maximum: 9
+        - name: country
+          in: query
+          description: 2-letter country code (e.g., "us")
+          required: false
+          schema:
+            type: string
+            default: "us"
+        - name: search_lang
+          in: query
+          description: Language code for search results (e.g., "en")
+          required: false
+          schema:
+            type: string
+            default: "en"
+        - name: ui_lang
+          in: query
+          description: UI language preference (e.g., "en-US")
+          required: false
+          schema:
+            type: string
+            default: "en-US"
+        - name: safesearch
+          in: query
+          description: Content filtering level
+          required: false
+          schema:
+            type: string
+            enum: [off, moderate, strict]
+            default: moderate
+        - name: freshness
+          in: query
+          description: Filter results by recency
+          required: false
+          schema:
+            type: string
+            enum: [pd, pw, pm, py]
+        - name: spellcheck
+          in: query
+          description: Enable spellcheck
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: result_filter
+          in: query
+          description: Comma-separated list of result types to include
+          required: false
+          schema:
+            type: string
+        - name: summary
+          in: query
+          description: Enable AI-generated summary
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: extra_snippets
+          in: query
+          description: Include up to 5 additional snippets
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: goggles
+          in: query
+          description: Custom re-ranking filters (Goggles)
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+            style: form
+            explode: false
+        - name: text_decorations
+          in: query
+          description: Include decoration markers in snippets
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: units
+          in: query
+          description: Measurement units ("metric" or "imperial")
+          required: false
+          schema:
+            type: string
+            enum: [metric, imperial]
+      responses:
+        '200':
+          description: Successful search response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    example: search
+                  web:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: search
+                      results:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            title:
+                              type: string
+                            url:
+                              type: string
+                            description:
+                              type: string
+                            is_source_local:
+                              type: boolean
+                            is_source_both:
+                              type: boolean
+                            profile:
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                url:
+                                  type: string
+                                long_name:
+                                  type: string
+                                img:
+                                  type: string
+        '400':
+          description: Bad request (e.g., missing query)
+        '401':
+          description: Unauthorized (invalid or missing API key)
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal server error
+      security:
+        - ApiKeyAuth: []
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Subscription-Token

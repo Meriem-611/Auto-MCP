@@ -1,0 +1,236 @@
+openapi: 3.0.3
+info:
+  title: Airtable API
+  version: "1.0.0"
+  description: >
+    Airtable REST API for CRUD operations on records in a specific base and table.
+    This spec uses placeholders {baseId} and {tableName} — customize them per base.
+    Official docs: https://airtable.com/api
+
+servers:
+  - url: https://api.airtable.com
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+
+  schemas:
+    Record:
+      type: object
+      properties:
+        id:
+          type: string
+        fields:
+          type: object
+        createdTime:
+          type: string
+          format: date-time
+
+security:
+  - bearerAuth: []
+
+
+paths:
+  /v0/{baseId}/{tableName}:
+    get:
+      summary: List records
+      description: Retrieve records from a specific Airtable table.
+      parameters:
+        - name: baseId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: tableName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: maxRecords
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Max number of records to return.
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Number of records per page (max 100).
+        - name: view
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Specific view to filter records.
+        - name: sort[0][field]
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Field name to sort by.
+        - name: sort[0][direction]
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [asc, desc]
+        - name: filterByFormula
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Formula to filter records.
+      responses:
+        '200':
+          description: Successful record listing.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  records:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Record'
+    post:
+      summary: Create records
+      description: Create one or more records in a table.
+      parameters:
+        - name: baseId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: tableName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                records:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      fields:
+                        type: object
+              required:
+                - records
+      responses:
+        '200':
+          description: Records created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  records:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Record'
+
+  /v0/{baseId}/{tableName}/{recordId}:
+    get:
+      summary: Retrieve record
+      description: Get a single record by ID.
+      parameters:
+        - name: baseId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: tableName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retrieved record successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Record'
+    patch:
+      summary: Update record
+      description: Update specific fields in a record.
+      parameters:
+        - name: baseId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: tableName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fields:
+                  type: object
+              required:
+                - fields
+      responses:
+        '200':
+          description: Record updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Record'
+    delete:
+      summary: Delete record
+      description: Delete a record by its ID.
+      parameters:
+        - name: baseId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: tableName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Record deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  deleted:
+                    type: boolean

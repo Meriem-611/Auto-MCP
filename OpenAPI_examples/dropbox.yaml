@@ -1,0 +1,327 @@
+openapi: 3.0.3
+info:
+  title: Dropbox API v2
+  version: '2.0'
+  description: |
+    This OpenAPI specification covers core Dropbox API endpoints, including file uploads, downloads, and folder listings.
+servers:
+  - url: https://api.dropboxapi.com
+    description: Dropbox API Server
+  - url: https://content.dropboxapi.com
+    description: Dropbox Content Server
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.dropbox.com/oauth2/authorize
+          tokenUrl: https://api.dropboxapi.com/oauth2/token
+          scopes:
+            files.content.write: Write access to file content
+            files.content.read: Read access to file content
+  schemas:
+    UploadSessionStartArg:
+      type: object
+      properties:
+        close:
+          type: boolean
+          description: If true, the current session will be closed.
+    UploadSessionStartResult:
+      type: object
+      properties:
+        session_id:
+          type: string
+          description: A unique identifier for the upload session.
+    UploadSessionCursor:
+      type: object
+      properties:
+        session_id:
+          type: string
+        offset:
+          type: integer
+    CommitInfo:
+      type: object
+      properties:
+        path:
+          type: string
+        mode:
+          type: string
+          enum: [add, overwrite, update]
+        autorename:
+          type: boolean
+        mute:
+          type: boolean
+        strict_conflict:
+          type: boolean
+    UploadSessionFinishArg:
+      type: object
+      properties:
+        cursor:
+          $ref: '#/components/schemas/UploadSessionCursor'
+        commit:
+          $ref: '#/components/schemas/CommitInfo'
+    FileMetadata:
+      type: object
+      properties:
+        name:
+          type: string
+        path_lower:
+          type: string
+        path_display:
+          type: string
+        id:
+          type: string
+        client_modified:
+          type: string
+          format: date-time
+        server_modified:
+          type: string
+          format: date-time
+        rev:
+          type: string
+        size:
+          type: integer
+    ListFolderArg:
+      type: object
+      properties:
+        path:
+          type: string
+        recursive:
+          type: boolean
+        include_media_info:
+          type: boolean
+        include_deleted:
+          type: boolean
+        include_has_explicit_shared_members:
+          type: boolean
+        include_mounted_folders:
+          type: boolean
+        limit:
+          type: integer
+    ListFolderResult:
+      type: object
+      properties:
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileMetadata'
+        cursor:
+          type: string
+        has_more:
+          type: boolean
+security:
+  - oauth2: [files.content.write, files.content.read]
+paths:
+  /2/files/upload_session/start:
+    post:
+      summary: Start an upload session
+      description: Initiates a new upload session.
+      security:
+        - oauth2: [files.content.write]
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      parameters:
+        - name: Dropbox-API-Arg
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/UploadSessionStartArg'
+      responses:
+        '200':
+          description: Upload session started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadSessionStartResult'
+  /2/files/upload_session/finish:
+    post:
+      summary: Finish an upload session
+      description: Completes an upload session and saves the uploaded data to the specified file path.
+      security:
+        - oauth2: [files.content.write]
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      parameters:
+        - name: Dropbox-API-Arg
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/UploadSessionFinishArg'
+      responses:
+        '200':
+          description: File uploaded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileMetadata'
+
+    /2/files/upload:
+    post:
+      summary: Upload a small file (≤150MB)
+      description: Uploads a small file to Dropbox without an upload session.
+      security:
+        - oauth2: [files.content.write]
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      parameters:
+        - name: Dropbox-API-Arg
+          in: header
+          required: true
+          schema:
+            type: string  # JSON string with Dropbox args (path, mode, etc.)
+      responses:
+        '200':
+          description: File uploaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileMetadata'
+
+  /2/files/download:
+    post:
+      summary: Download a file
+      description: Downloads the contents of a file from Dropbox.
+      security:
+        - oauth2: [files.content.read]
+      parameters:
+        - name: Dropbox-API-Arg
+          in: header
+          required: true
+          schema:
+            type: string  # JSON string with Dropbox args (path, etc.)
+      responses:
+        '200':
+          description: File downloaded successfully (binary content).
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+
+  /2/files/delete_v2:
+    post:
+      summary: Delete a file or folder
+      description: Deletes a file or folder at a given path.
+      security:
+        - oauth2: [files.content.write]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                path:
+                  type: string
+      responses:
+        '200':
+          description: File or folder deleted successfully.
+
+  /2/files/move_v2:
+    post:
+      summary: Move or rename a file or folder
+      description: Moves or renames a file or folder.
+      security:
+        - oauth2: [files.content.write]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                from_path:
+                  type: string
+                to_path:
+                  type: string
+      responses:
+        '200':
+          description: File or folder moved successfully.
+
+  /2/files/get_metadata:
+    post:
+      summary: Get metadata for a file or folder
+      description: Retrieves metadata for a file or folder.
+      security:
+        - oauth2: [files.content.read]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                path:
+                  type: string
+      responses:
+        '200':
+          description: Metadata retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileMetadata'
+
+  /2/files/search_v2:
+    post:
+      summary: Search for files and folders
+      description: Searches for files and folders matching a query.
+      security:
+        - oauth2: [files.content.read]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+      responses:
+        '200':
+          description: Search results retrieved successfully.
+
+  /2/users/get_current_account:
+    post:
+      summary: Get current account information
+      description: Retrieves information about the current user’s account.
+      security:
+        - oauth2: []
+      responses:
+        '200':
+          description: Current account info retrieved successfully.
+
+  /2/files/list_folder:
+    post:
+      summary: List folder contents
+      description: Returns the contents of a folder.
+      security:
+        - oauth2: [files.content.read]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListFolderArg'
+      responses:
+        '200':
+          description: Folder contents retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListFolderResult'
