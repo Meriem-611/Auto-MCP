@@ -1,0 +1,142 @@
+{
+  "total_count": 2,
+  "by_severity": {
+    "high": 2
+  },
+  "metadata": {},
+  "global_issues": [],
+  "operation_issues": {
+    "securityDefinitions.oauth2": [
+      {
+        "id": "6f97e5a4",
+        "type": "missing_auth_documentation",
+        "location": "securityDefinitions.oauth2",
+        "description": "OAuth2 flow mismatch: documentation mentions 'authorizationCode' flow but spec has ['implicit']",
+        "severity": "high",
+        "spec_fragment": {
+          "securityDefinitions": {
+            "oauth2": {
+              "type": "oauth2",
+              "flow": "implicit",
+              "authorizationUrl": "https://identity.apaleo.com/connect/authorize",
+              "scopes": {
+                "admin": "Full access",
+                "reservations.import": "Import reservations"
+              }
+            }
+          },
+          "type": "oauth2",
+          "flows": {
+            "implicit": {
+              "authorizationUrl": "https://identity.apaleo.com/connect/authorize",
+              "tokenUrl": null,
+              "scopes": {
+                "admin": "Full access",
+                "reservations.import": "Import reservations"
+              }
+            }
+          },
+          "current_flows": [
+            "implicit"
+          ],
+          "expected_flow": "authorizationCode",
+          "current_implicit_details": {
+            "authorizationUrl": "https://identity.apaleo.com/connect/authorize",
+            "tokenUrl": null,
+            "refreshUrl": null,
+            "scopes": {
+              "admin": "Full access",
+              "reservations.import": "Import reservations"
+            }
+          },
+          "expected_token_url": "https://identity.apaleo.com/connect/token"
+        },
+        "doc_fragment": "Documentation indicates OAuth2 flow: authorizationCode"
+      }
+    ],
+    "host": [
+      {
+        "id": "53200677",
+        "type": "malformed_base_url",
+        "location": "host",
+        "description": "No host defined in spec (OpenAPI 2)",
+        "severity": "high",
+        "spec_fragment": {
+          "_example_paths": [
+            "/inventory/v1/properties",
+            "/inventory/v1/properties/$count",
+            "/inventory/v1/properties/{id}",
+            "/inventory/v1/property-actions/{id}/clone",
+            "/inventory/v1/property-actions/{id}/archive"
+          ]
+        },
+        "doc_fragment": "Documentation excerpt (example endpoint (method + full URL)):\nrovides the following endpoint: HTTP Method URI Description POST https://identity.apaleo.com/connect/token Token endpoint which issues access tokens. Why we recommend the connect clients? Normally we recommend you to use the c\n\nDocumentation excerpt (example endpoint (method + full URL)):\n. Set to client_credentials to use Client Credentials Grant POST https://identity.apaleo.com/connect/token Authorization: Basic <base64 encoded \"clientId:clientSecret\"> Content-Type: application/x-www-form-urlencoded grant_typ\n\nDocumentation excerpt (example endpoint (method + full URL)):\nlets you complete an action on behalf of a resource owner. GET https://api.apaleo.com/inventory/v1/properties/MUC Content-Type: application/json Authorization: Bearer my-authentication-token Example cURL request You can test your tok"
+      }
+    ]
+  },
+  "issues": [
+    {
+      "id": "6f97e5a4",
+      "type": "missing_auth_documentation",
+      "location": "securityDefinitions.oauth2",
+      "description": "OAuth2 flow mismatch: documentation mentions 'authorizationCode' flow but spec has ['implicit']",
+      "severity": "high",
+      "spec_fragment": {
+        "securityDefinitions": {
+          "oauth2": {
+            "type": "oauth2",
+            "flow": "implicit",
+            "authorizationUrl": "https://identity.apaleo.com/connect/authorize",
+            "scopes": {
+              "admin": "Full access",
+              "reservations.import": "Import reservations"
+            }
+          }
+        },
+        "type": "oauth2",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "https://identity.apaleo.com/connect/authorize",
+            "tokenUrl": null,
+            "scopes": {
+              "admin": "Full access",
+              "reservations.import": "Import reservations"
+            }
+          }
+        },
+        "current_flows": [
+          "implicit"
+        ],
+        "expected_flow": "authorizationCode",
+        "current_implicit_details": {
+          "authorizationUrl": "https://identity.apaleo.com/connect/authorize",
+          "tokenUrl": null,
+          "refreshUrl": null,
+          "scopes": {
+            "admin": "Full access",
+            "reservations.import": "Import reservations"
+          }
+        },
+        "expected_token_url": "https://identity.apaleo.com/connect/token"
+      },
+      "doc_fragment": "Documentation indicates OAuth2 flow: authorizationCode"
+    },
+    {
+      "id": "53200677",
+      "type": "malformed_base_url",
+      "location": "host",
+      "description": "No host defined in spec (OpenAPI 2)",
+      "severity": "high",
+      "spec_fragment": {
+        "_example_paths": [
+          "/inventory/v1/properties",
+          "/inventory/v1/properties/$count",
+          "/inventory/v1/properties/{id}",
+          "/inventory/v1/property-actions/{id}/clone",
+          "/inventory/v1/property-actions/{id}/archive"
+        ]
+      },
+      "doc_fragment": "Documentation excerpt (example endpoint (method + full URL)):\nrovides the following endpoint: HTTP Method URI Description POST https://identity.apaleo.com/connect/token Token endpoint which issues access tokens. Why we recommend the connect clients? Normally we recommend you to use the c\n\nDocumentation excerpt (example endpoint (method + full URL)):\n. Set to client_credentials to use Client Credentials Grant POST https://identity.apaleo.com/connect/token Authorization: Basic <base64 encoded \"clientId:clientSecret\"> Content-Type: application/x-www-form-urlencoded grant_typ\n\nDocumentation excerpt (example endpoint (method + full URL)):\nlets you complete an action on behalf of a resource owner. GET https://api.apaleo.com/inventory/v1/properties/MUC Content-Type: application/json Authorization: Bearer my-authentication-token Example cURL request You can test your tok"
+    }
+  ]
+}

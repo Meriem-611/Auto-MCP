@@ -1,0 +1,55 @@
+{
+  "api_name": "apaleo Inventory API",
+  "api_version": "v1",
+  "total_issues_detected": 4,
+  "issues_validated_and_fixed": 2,
+  "fixes_applied": 2,
+  "fixed_issues": [
+    {
+      "id": "8f1285c8",
+      "type": "missing_auth_documentation",
+      "location": "components.securitySchemes.oauth2",
+      "description": "OAuth2 flow mismatch: documentation mentions 'authorizationCode' flow but spec has ['implicit']",
+      "severity": "high",
+      "confidence": 1.0,
+      "validation_reasoning": "The documentation specifies the 'authorizationCode' flow, but the spec currently uses 'implicit'. According to the rules, this is a real issue and the flow must be replaced with 'authorizationCode', including both 'authorizationUrl' and 'tokenUrl'. Scopes should be preserved.",
+      "suggested_fix_reasoning": "",
+      "fix_applied": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://identity.apaleo.com/connect/authorize",
+            "tokenUrl": "https://identity.apaleo.com/connect/token",
+            "scopes": {
+              "admin": "Full access",
+              "reservations.import": "Import reservations"
+            }
+          }
+        }
+      },
+      "is_global": false,
+      "affected_locations": []
+    },
+    {
+      "id": "6369f7d7",
+      "type": "malformed_base_url",
+      "location": "servers[0]",
+      "description": "Server URL 'api.apaleo.com' is missing protocol (http:// or https://)",
+      "severity": "high",
+      "confidence": 1.0,
+      "validation_reasoning": "The server URL is missing the protocol. Documentation shows example REST calls using 'https://api.apaleo.com', and the example paths do not overlap with the domain. The correct base URL should be 'https://api.apaleo.com'.",
+      "suggested_fix_reasoning": "",
+      "fix_applied": {
+        "url": "https://api.apaleo.com"
+      },
+      "is_global": false,
+      "affected_locations": []
+    }
+  ],
+  "summary_by_type": {
+    "missing_auth_documentation": 1,
+    "malformed_base_url": 1
+  },
+  "summary_by_severity": {
+    "high": 2
+  }
+}

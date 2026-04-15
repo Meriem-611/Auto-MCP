@@ -1,0 +1,13 @@
+================================================================================
+SpecFix - Issue Summary
+================================================================================
+
+Total Issues: 2
+Issues by Severity: {'high': 2}
+
+Issues by Type:
+- missing_auth_documentation: 1
+- malformed_base_url: 1
+
+Top 5 Problematic Paths/Sections:
+- None
