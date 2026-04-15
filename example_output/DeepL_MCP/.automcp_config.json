@@ -1,0 +1,11 @@
+{
+  "input": "openapi-test\\DeepL.json",
+  "output": "example_output\\DeepL_MCP",
+  "auth": null,
+  "include_tags": null,
+  "exclude_tags": null,
+  "include": [],
+  "disable_id_merge": false,
+  "generated_at": "2026-04-14T23:15:43.639073",
+  "version": "1.0"
+}
