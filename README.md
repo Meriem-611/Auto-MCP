@@ -302,11 +302,9 @@ Review error messages when calling the MCP server tools for details on what went
 
 
 
-## �� Acknowledgments
+## Acknowledgments
 
 - Built with [FastMCP](https://github.com/fastmcp/fastmcp) for MCP server functionality
 - Uses [openapi-spec-validator](https://github.com/p1c2u/openapi-spec-validator) for specification validation
-- Inspired by the Model Context Protocol specification
-
 
 **Happy MCP Server Generation! 🚀**
