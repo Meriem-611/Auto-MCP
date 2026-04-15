@@ -1,0 +1,11 @@
+{
+  "input": "openapi-test\\ThoughtSpot.json",
+  "output": "example_output\\thoughtspot_MCP",
+  "auth": null,
+  "include_tags": null,
+  "exclude_tags": null,
+  "include": [],
+  "disable_id_merge": false,
+  "generated_at": "2026-04-14T23:11:31.167666",
+  "version": "1.0"
+}
