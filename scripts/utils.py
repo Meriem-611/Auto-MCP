@@ -36,6 +36,10 @@ def resolve_references(spec):
         if isinstance(obj, dict):
             if "$ref" in obj:
                 ref_path = obj["$ref"]
+                # Ensure $ref is a string, not a dict (malformed spec)
+                if not isinstance(ref_path, str):
+                    print(f"[resolve_references] Warning: $ref is not a string (type: {type(ref_path).__name__}), skipping: {ref_path}")
+                    return obj
                 if ref_path in ref_stack:
                     print(f"[resolve_references] Circular $ref detected: {ref_path} (in stack). Skipping further resolution.")
                     return obj  # Return the $ref as-is to break the cycle
