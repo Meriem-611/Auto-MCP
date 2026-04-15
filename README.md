@@ -292,6 +292,15 @@ Robust error handling is built into AutoMCP, but issues may still arise if your 
 Review error messages when calling the MCP server tools for details on what went wrong.
 
 
+## Optional: SpecFixer Pre/Post Step
+
+Optionally, you can use `SpecFixer` with AutoMCP in either of these ways:
+
+- **Before AutoMCP generation**: run SpecFixer to analyze and repair OpenAPI issues first, then generate the MCP server from the improved spec.
+- **After AutoMCP generation**: if you notice spec quality issues during or after server generation, run SpecFixer on the OpenAPI file and regenerate.
+
+For complete SpecFixer usage, read `SpecFixer/README.md`.
+
 ## 🤝 Contributing
 
 1. Fork the repository
