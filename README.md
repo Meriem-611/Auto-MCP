@@ -27,7 +27,7 @@ Before using this server, make sure you have:
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd openapi-mcp-generator
+cd Auto-MCP
 ```
 
 2. Install dependencies:
