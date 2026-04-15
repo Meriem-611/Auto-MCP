@@ -62,11 +62,37 @@ def _fix_duplicate_operation_ids(spec):
                     seen_op_ids.add(new_id)
 
 
-def _clean_default_values(obj):
+def _clean_default_values(obj, depth=0, max_depth=30, processed_count=[0], visited=None, max_objects=5000000):
     """
     Recursively clean a spec by removing default values that are not valid against their schema.
+    Added depth limit, progress logging, visited tracking, and max object limit to prevent infinite recursion.
     """
+    if depth > max_depth:
+        return  # Prevent excessive recursion
+    
+    # Safety check: if we've processed way too many objects, something is wrong
+    if processed_count[0] > max_objects:
+        print(f"[parser] WARNING: Processed {processed_count[0]} objects, exceeding safety limit of {max_objects}. Stopping to prevent infinite loop.")
+        return
+    
+    # Track visited objects by id() to prevent processing the same object multiple times
+    # This prevents infinite loops from circular references
+    if visited is None:
+        visited = set()
+    
+    obj_id = id(obj)
+    if obj_id in visited:
+        return  # Already processed this object
+    visited.add(obj_id)
+    
+    processed_count[0] += 1
+    if processed_count[0] % 100000 == 0:
+        print(f"[parser] Cleaned {processed_count[0]} objects so far (depth={depth}, unique visited={len(visited)})...")
+    
     if isinstance(obj, dict):
+        # Skip recursion for certain keys that don't contain schemas with defaults
+        # This optimization helps with very large specs
+        skip_keys = {'examples', 'example', 'externalDocs', 'tags', 'servers', 'security'}
         if 'default' in obj:
             # Handle array types with enums nested in items/anyOf/oneOf
             if obj.get('type') == 'array' and 'items' in obj:
@@ -153,13 +179,18 @@ def _clean_default_values(obj):
                     del obj['default']
         
         # Recurse into dictionary values
+        # Skip recursion for certain keys that don't contain schemas with defaults (optimization for large specs)
+        skip_keys = {'examples', 'example', 'externalDocs', 'tags', 'servers', 'security'}
         for key, value in obj.items():
-            _clean_default_values(value)
+            # Skip recursing into branches that don't contain schema defaults at deeper levels
+            if depth > 5 and key in skip_keys:
+                continue
+            _clean_default_values(value, depth + 1, max_depth, processed_count, visited, max_objects)
             
     elif isinstance(obj, list):
         # Recurse into list items
         for item in obj:
-            _clean_default_values(item)
+            _clean_default_values(item, depth + 1, max_depth, processed_count, visited, max_objects)
 
 
 def _fix_malformed_response_schemas(spec):
@@ -303,8 +334,14 @@ def parse_and_dereference(filepath):
     t2 = time.time()
     print("[parser] Cleaning and sanitizing spec...")
     _fix_unresolved_path_params(deref_spec)
+    print(f"[parser] Fixed path params in {time.time() - t2:.2f}s")
+    t2a = time.time()
     _fix_duplicate_operation_ids(deref_spec)
-    _clean_default_values(deref_spec)
+    print(f"[parser] Fixed duplicate operation IDs in {time.time() - t2a:.2f}s")
+    t2b = time.time()
+    processed_count = [0]
+    _clean_default_values(deref_spec, processed_count=processed_count)
+    print(f"[parser] Cleaned default values in {time.time() - t2b:.2f}s (processed {processed_count[0]} objects)")
     print(f"[parser] Cleaned spec in {time.time() - t2:.2f}s")
 
     t3 = time.time()
