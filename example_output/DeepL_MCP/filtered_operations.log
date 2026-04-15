@@ -1,0 +1,26 @@
+================================================================================
+FILTERED OPERATIONS LOG
+================================================================================
+
+Total operations analyzed: 27
+Operations filtered: 3
+Operations allowed: 24
+
+Filter criteria — structural: HTTP DELETE, deprecated. Semantic (LLM): authentication, authorization, settings.
+
+================================================================================
+FILTERED OPERATIONS:
+================================================================================
+
+Method: DELETE
+Path: /v3/glossaries/{glossary_id}
+Reason: Delete
+--------------------------------------------------------------------------------
+Method: DELETE
+Path: /v3/glossaries/{glossary_id}/dictionaries
+Reason: Delete
+--------------------------------------------------------------------------------
+Method: DELETE
+Path: /v2/glossaries/{glossary_id}
+Reason: Delete
+--------------------------------------------------------------------------------

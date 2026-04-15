@@ -1,0 +1,65 @@
+{
+  "AdminApi": {
+    "tag": "AdminApi",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 635,
+    "output_tokens": 10
+  },
+  "ManageGlossaries": {
+    "tag": "ManageGlossaries",
+    "tag_definition": "Please note that this is the spec for the (old) v2 glossary endpoint.\nWe recommend users switch to the newer v3 glossary endpoints, which support editability and multilinguality.\n\nThe *glossary* functions allow you to create, inspect, and delete glossaries.\nGlossaries created with the glossary function can be used in translate requests by specifying the\n`glossary_id` parameter.\nIf you encounter issues, please let us know at support@DeepL.com.\n\nCurrently you can create glossaries with any of the languages DeepL supports.\n\nThe maximum size limit for a glossary is 10 MiB = 10485760 bytes and each source/target text,\nas well as the name of the glossary, is limited to 1024 UTF-8 bytes.\nA total of 1000 glossaries are allowed per account.\n\nWhen creating a glossary with target language `EN`, `PT`, or `ZH`, it's not necessary to specify a variant\n(e.g. `EN-US`, `EN-GB`, `PT-PT`, `PT-BR`, or `ZH-HANS`).\nGlossaries with target language `EN` can be used in translations with either English variant.\nSimilarly `PT`, and `ZH` glossaries can be used in translations with their corresponding variants.\n\nNote that on the v2 API, glossaries are immutable: once created, the glossary entries for a given glossary ID cannot be modified.\n\nAs a workaround for effectively editable glossaries, we suggest to identify glossaries by name instead of ID in your application\nand then use the following procedure for modifications:\n- [download](https://www.deepl.com/docs-api/glossaries/get-glossary-entries) and store the current glossary's entries,\n- locally modify the glossary entries,\n- [delete](https://www.deepl.com/docs-api/glossaries/delete-glossary) the existing glossary,\n- [create a new glossary](https://www.deepl.com/docs-api/glossaries/create-glossary) with the same name.",
+    "llm_labels": [
+      "Data & Storage"
+    ],
+    "input_tokens": 1050,
+    "output_tokens": 12
+  },
+  "ManageMultilingualGlossaries": {
+    "tag": "ManageMultilingualGlossaries",
+    "tag_definition": "The *glossary* functions allow you to create, inspect, edit and delete glossaries.\nGlossaries created with the glossary function can be used in translate requests by specifying the\n`glossary_id` parameter. A glossary contains (several) dictionaries.\nA dictionary is a mapping of source phrases to target phrases for a single language pair.\nIf you encounter issues, please let us know at support@DeepL.com.\n\nCurrently you can create glossaries with any of the languages DeepL supports.\n\nThe maximum size limit for a glossary is 10 MiB = 10485760 bytes and each source/target text,\nas well as the name of the glossary, is limited to 1024 UTF-8 bytes.\nA total of 1000 glossaries are allowed per account.\n\nWhen creating a dictionary with target language `EN`, `PT`, or `ZH`, it's not necessary to specify a variant\n(e.g. `EN-US`, `EN-GB`, `PT-PT`, `PT-BR`, or `ZH-HANS`).\nDictionaries with target language `EN` can be used in translations with either English variant.\nSimilarly `PT`, and `ZH` dictionaries can be used in translations with their corresponding variants.\n(When you provide the ID of a glossary to a translation, the appropriate dictionary is automatically applied. Currently glossaries can not yet be used with source language detection.)\n\nGlossaries created via the DeepL API are now unified with glossaries created via the DeepL website and DeepL apps.\nPlease only use the v3 glossary API in conjunction with multilingual or edited glossaries from the website.",
+    "llm_labels": [
+      "Data & Storage"
+    ],
+    "input_tokens": 966,
+    "output_tokens": 12
+  },
+  "MetaInformation": {
+    "tag": "MetaInformation",
+    "tag_definition": "Information about API usage and value ranges",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 641,
+    "output_tokens": 10
+  },
+  "RephraseText": {
+    "tag": "RephraseText",
+    "tag_definition": "The `rephrase` endpoint  is used to make corrections and adjustments to texts based on style or tone.\n\nFor more details, visit [this documentation page](https://developers.deepl.com/docs/api-reference/improve-text)",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 681,
+    "output_tokens": 10
+  },
+  "TranslateDocuments": {
+    "tag": "TranslateDocuments",
+    "tag_definition": "The document translation API allows you to translate whole documents and supports the following file types and extensions:\n  * `docx` - Microsoft Word Document\n  * `pptx` - Microsoft PowerPoint Document\n  * `xlsx` - Microsoft Excel Document\n  * `pdf` - Portable Document Format\n  * `htm / html` - HTML Document\n  * `txt` - Plain Text Document\n  * `xlf / xliff` - XLIFF Document, version 2.1\n  * `srt` - SRT Document\n\nPlease note that with every submitted document of type .pptx, .docx, .xlsx, or .pdf,\nyou are billed a minimum of 50,000 characters with the DeepL API plan,\nno matter how many characters are included in the document.\n\n\nTranslating a document usually involves three types of HTTP requests:\n  - [upload](https://www.deepl.com/docs-api/documents/translate-document) the document to be translated,\n  - periodically [check the status](https://www.deepl.com/docs-api/documents/get-document-status) of the document translation,\n  - once the status call reports `done`, [download](https://www.deepl.com/docs-api/documents/download-document) the translated document.\n\n\nTo learn more about context in DeepL API translations, we recommend [this article](https://www.deepl.com/docs-api/general/working-with-context).",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 933,
+    "output_tokens": 10
+  },
+  "TranslateText": {
+    "tag": "TranslateText",
+    "tag_definition": "The text-translation API currently consists of a single endpoint, `translate`, which is described below.\n\nTo learn more about context in DeepL API translations, we recommend [this article](https://www.deepl.com/docs-api/general/working-with-context).",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 686,
+    "output_tokens": 10
+  }
+}

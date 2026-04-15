@@ -1,0 +1,28 @@
+================================================================================
+MERGED OPERATIONS LOG
+================================================================================
+
+Total merge groups: 2
+
+================================================================================
+MERGED OPERATIONS:
+================================================================================
+
+Merge Group 1:
+  Base Path: /v3/glossaries
+  List: GET /v3/glossaries
+  Detail: GET /v3/glossaries/{glossary_id}
+  Merged Into: GET /v3/glossaries
+  List Operations: 1
+  Detail Operations: 1
+--------------------------------------------------------------------------------
+
+Merge Group 2:
+  Base Path: /v2/glossaries
+  List: GET /v2/glossaries
+  Detail: GET /v2/glossaries/{glossary_id}
+  Merged Into: GET /v2/glossaries
+  List Operations: 1
+  Detail Operations: 1
+--------------------------------------------------------------------------------
+

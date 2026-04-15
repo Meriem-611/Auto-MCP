@@ -1,0 +1,362 @@
+{
+  "10.1.0.cl": {
+    "tag": "10.1.0.cl",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 639,
+    "output_tokens": 10
+  },
+  "10.10.0.cl": {
+    "tag": "10.10.0.cl",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 639,
+    "output_tokens": 10
+  },
+  "10.12.0.cl": {
+    "tag": "10.12.0.cl",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 639,
+    "output_tokens": 10
+  },
+  "10.13.0.cl": {
+    "tag": "10.13.0.cl",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 639,
+    "output_tokens": 10
+  },
+  "10.3.0.cl": {
+    "tag": "10.3.0.cl",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 639,
+    "output_tokens": 10
+  },
+  "10.4.0.cl": {
+    "tag": "10.4.0.cl",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 639,
+    "output_tokens": 10
+  },
+  "10.6.0.cl": {
+    "tag": "10.6.0.cl",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 639,
+    "output_tokens": 10
+  },
+  "10.7.0.cl": {
+    "tag": "10.7.0.cl",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 639,
+    "output_tokens": 10
+  },
+  "10.8.0.cl": {
+    "tag": "10.8.0.cl",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 639,
+    "output_tokens": 10
+  },
+  "10.9.0.cl": {
+    "tag": "10.9.0.cl",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 639,
+    "output_tokens": 10
+  },
+  "9.0.0.cl": {
+    "tag": "9.0.0.cl",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 639,
+    "output_tokens": 10
+  },
+  "9.12.0.cl": {
+    "tag": "9.12.0.cl",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 639,
+    "output_tokens": 10
+  },
+  "9.2.0.cl": {
+    "tag": "9.2.0.cl",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 639,
+    "output_tokens": 10
+  },
+  "9.4.0.cl": {
+    "tag": "9.4.0.cl",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 639,
+    "output_tokens": 10
+  },
+  "9.5.0.cl": {
+    "tag": "9.5.0.cl",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 639,
+    "output_tokens": 10
+  },
+  "9.6.0.cl": {
+    "tag": "9.6.0.cl",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 639,
+    "output_tokens": 10
+  },
+  "9.7.0.cl": {
+    "tag": "9.7.0.cl",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 639,
+    "output_tokens": 10
+  },
+  "9.9.0.cl": {
+    "tag": "9.9.0.cl",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 639,
+    "output_tokens": 10
+  },
+  "AI": {
+    "tag": "AI",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 634,
+    "output_tokens": 10
+  },
+  "Authentication": {
+    "tag": "Authentication",
+    "tag_definition": "",
+    "llm_labels": [
+      "Authentication"
+    ],
+    "input_tokens": 634,
+    "output_tokens": 10
+  },
+  "Connection Configurations": {
+    "tag": "Connection Configurations",
+    "tag_definition": "",
+    "llm_labels": [
+      "System Configuration"
+    ],
+    "input_tokens": 636,
+    "output_tokens": 11
+  },
+  "Connections": {
+    "tag": "Connections",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 634,
+    "output_tokens": 10
+  },
+  "Custom Action": {
+    "tag": "Custom Action",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 635,
+    "output_tokens": 10
+  },
+  "Custom Calendars": {
+    "tag": "Custom Calendars",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 636,
+    "output_tokens": 10
+  },
+  "DBT": {
+    "tag": "DBT",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 635,
+    "output_tokens": 10
+  },
+  "Data": {
+    "tag": "Data",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 634,
+    "output_tokens": 10
+  },
+  "Email Customization": {
+    "tag": "Email Customization",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 636,
+    "output_tokens": 10
+  },
+  "Groups": {
+    "tag": "Groups",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 634,
+    "output_tokens": 10
+  },
+  "Log": {
+    "tag": "Log",
+    "tag_definition": "",
+    "llm_labels": [
+      "Logging & Monitoring"
+    ],
+    "input_tokens": 634,
+    "output_tokens": 12
+  },
+  "Metadata": {
+    "tag": "Metadata",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 634,
+    "output_tokens": 10
+  },
+  "Orgs": {
+    "tag": "Orgs",
+    "tag_definition": "",
+    "llm_labels": [
+      "Organization & Environment Management"
+    ],
+    "input_tokens": 635,
+    "output_tokens": 13
+  },
+  "Reports": {
+    "tag": "Reports",
+    "tag_definition": "",
+    "llm_labels": [
+      "Analytics & Insights"
+    ],
+    "input_tokens": 634,
+    "output_tokens": 12
+  },
+  "Roles": {
+    "tag": "Roles",
+    "tag_definition": "",
+    "llm_labels": [
+      "Access Control & Authorization"
+    ],
+    "input_tokens": 634,
+    "output_tokens": 13
+  },
+  "Schedules": {
+    "tag": "Schedules",
+    "tag_definition": "",
+    "llm_labels": [
+      "Events & Workflow Management"
+    ],
+    "input_tokens": 634,
+    "output_tokens": 13
+  },
+  "Security": {
+    "tag": "Security",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 634,
+    "output_tokens": 10
+  },
+  "System": {
+    "tag": "System",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 634,
+    "output_tokens": 10
+  },
+  "Tags": {
+    "tag": "Tags",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 634,
+    "output_tokens": 10
+  },
+  "Users": {
+    "tag": "Users",
+    "tag_definition": "",
+    "llm_labels": [
+      "User & Account Management"
+    ],
+    "input_tokens": 634,
+    "output_tokens": 13
+  },
+  "Variable": {
+    "tag": "Variable",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 634,
+    "output_tokens": 10
+  },
+  "Version Control": {
+    "tag": "Version Control",
+    "tag_definition": "",
+    "llm_labels": [
+      "Other"
+    ],
+    "input_tokens": 635,
+    "output_tokens": 10
+  }
+}

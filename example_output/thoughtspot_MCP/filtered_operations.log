@@ -1,0 +1,98 @@
+================================================================================
+FILTERED OPERATIONS LOG
+================================================================================
+
+Total operations analyzed: 130
+Operations filtered: 21
+Operations allowed: 109
+
+Filter criteria — structural: HTTP DELETE, deprecated. Semantic (LLM): authentication, authorization, settings.
+
+================================================================================
+FILTERED OPERATIONS:
+================================================================================
+
+Method: POST
+Path: /api/rest/2.0/ai/analytical-questions
+Reason: Deprecated
+--------------------------------------------------------------------------------
+Method: POST
+Path: /api/rest/2.0/connection/delete
+Reason: Deprecated
+--------------------------------------------------------------------------------
+Method: POST
+Path: /api/rest/2.0/connection/update
+Reason: Deprecated
+--------------------------------------------------------------------------------
+Method: POST
+Path: /api/rest/2.0/customization/email/{template_identifier}/delete
+Reason: Deprecated
+--------------------------------------------------------------------------------
+Method: GET
+Path: /api/rest/2.0/auth/session/user
+Reason: Authentication (9/130 = 6.9% of operations)
+--------------------------------------------------------------------------------
+Method: GET
+Path: /api/rest/2.0/auth/session/token
+Reason: Authentication (9/130 = 6.9% of operations)
+--------------------------------------------------------------------------------
+Method: POST
+Path: /api/rest/2.0/auth/token/custom
+Reason: Authentication (9/130 = 6.9% of operations)
+--------------------------------------------------------------------------------
+Method: POST
+Path: /api/rest/2.0/auth/token/full
+Reason: Authentication (9/130 = 6.9% of operations)
+--------------------------------------------------------------------------------
+Method: POST
+Path: /api/rest/2.0/auth/token/object
+Reason: Authentication (9/130 = 6.9% of operations)
+--------------------------------------------------------------------------------
+Method: POST
+Path: /api/rest/2.0/auth/session/login
+Reason: Authentication (9/130 = 6.9% of operations)
+--------------------------------------------------------------------------------
+Method: POST
+Path: /api/rest/2.0/auth/session/logout
+Reason: Authentication (9/130 = 6.9% of operations)
+--------------------------------------------------------------------------------
+Method: POST
+Path: /api/rest/2.0/auth/token/revoke
+Reason: Authentication (9/130 = 6.9% of operations)
+--------------------------------------------------------------------------------
+Method: POST
+Path: /api/rest/2.0/auth/token/validate
+Reason: Authentication (9/130 = 6.9% of operations)
+--------------------------------------------------------------------------------
+Method: POST
+Path: /api/rest/2.0/roles/create
+Reason: Authorization (4/130 = 3.1% of operations)
+--------------------------------------------------------------------------------
+Method: POST
+Path: /api/rest/2.0/roles/{role_identifier}/delete
+Reason: Authorization (4/130 = 3.1% of operations)
+--------------------------------------------------------------------------------
+Method: POST
+Path: /api/rest/2.0/roles/search
+Reason: Authorization (4/130 = 3.1% of operations)
+--------------------------------------------------------------------------------
+Method: POST
+Path: /api/rest/2.0/roles/{role_identifier}/update
+Reason: Authorization (4/130 = 3.1% of operations)
+--------------------------------------------------------------------------------
+Method: POST
+Path: /api/rest/2.0/connection-configurations/search
+Reason: Settings (4/130 = 3.1% of operations)
+--------------------------------------------------------------------------------
+Method: POST
+Path: /api/rest/2.0/connection-configurations/create
+Reason: Settings (4/130 = 3.1% of operations)
+--------------------------------------------------------------------------------
+Method: POST
+Path: /api/rest/2.0/connection-configurations/delete
+Reason: Settings (4/130 = 3.1% of operations)
+--------------------------------------------------------------------------------
+Method: POST
+Path: /api/rest/2.0/connection-configurations/{configuration_identifier}/update
+Reason: Settings (4/130 = 3.1% of operations)
+--------------------------------------------------------------------------------
