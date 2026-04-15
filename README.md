@@ -1,6 +1,6 @@
 # AutoMCP: Automatic MCP Server Generator from OpenAPI
 
-A powerful tool that automatically generates Model Context Protocol (MCP) server stubs from OpenAPI specifications. This project converts OpenAPI/Swagger definitions into fully functional MCP servers that can be used with AI assistants and development tools.
+A tool that automatically generates Model Context Protocol (MCP) server stubs from OpenAPI specifications. This project converts OpenAPI/Swagger definitions into fully functional MCP servers that can be used with AI assistants and development tools. It doesn't count on naive one-to-one mappings but instead it filters risky operations and groups low level operations.
 
 ## 🚀 Features
 
@@ -8,6 +8,8 @@ A powerful tool that automatically generates Model Context Protocol (MCP) server
 - **OAuth2 Support**: Generates Flask-based OAuth2 login servers for secure authentication
 - **Multiple Authentication Methods**: Supports API keys, Bearer tokens, Basic auth, and OAuth2 flows
 - **Endpoint Filtering**: Filter endpoints by tags (include/exclude)
+- **Risky Endpoint Filtering (LLM + Structural)**: Filters risky operations using structural rules (`DELETE`, `deprecated`) and semantic LLM categories (Authentication, Access Control & Authorization, System Configuration)
+- **Operation Merging**: Merges compatible list/detail GET operations into a single tool
 - **Environment Configuration**: Auto-generates `.env` files with proper authentication placeholders
 - **OpenAPI 2.0 & 3.x Support**: Handles both Swagger and OpenAPI specifications
 - **Robust Error Handling**: Comprehensive validation and error handling for malformed specs
@@ -40,13 +42,13 @@ pip install -r requirements.txt
 Generate an MCP server from an OpenAPI specification:
 
 ```bash
-python main.py --input path/to/spec.yaml --output output_directory
+python scripts/main.py --input path/to/spec.yaml --output output_directory
 ```
 
 ### Advanced Usage
 
 ```bash
-python main.py \
+python scripts/main.py \
   --input spotify.yaml \
   --output output_dir_spotify \
   --include-tags "playlists,albums" \
@@ -59,6 +61,9 @@ python main.py \
 - `--output, -o`: Output directory for generated files **[Required]**
 - `--include-tags`: Comma-separated list of tags to include to select the tools you want in the generated MCP Server
 - `--exclude-tags`: Comma-separated list of tags to exclude the tools you don't need if any
+- `--include`: Keep categories that would otherwise be filtered. Repeatable. Supported values: `deprecated`, `destructive`, `auth`, `authorization`, `settings` (legacy aliases: `admin` -> `settings`, `security` -> `authorization`)
+- `--disable-id-merge`: Disable list/detail GET merge step
+- `--stub-only`: Regenerate `server_stub.py` only (skips `.env` generation and log files)
 
 ## 📁 Generated Files
 
@@ -85,6 +90,16 @@ Environment configuration file with:
 - OAuth2 configuration variables
 - API keys and tokens
 - Custom headers support
+
+### 4. `filtered_operations.log`
+Risk filtering report:
+- Total operations analyzed, filtered, and allowed
+- Per-operation filtering reasons
+
+### 5. `merged_operations.log`
+Merge report:
+- Number of merge groups
+- Which list/detail GET operations were merged
 
 ## 🔧 Authentication Support
 
@@ -142,7 +157,7 @@ python server_stub.py
 
 1. **Generate the server stub:**
 ```bash
-python main.py --input spotify.yaml --output spotify_mcp
+python scripts/main.py --input spotify.yaml --output spotify_mcp
 ```
 
 2. **Configure authentication:**
@@ -193,12 +208,41 @@ You can use the same config block, but the file that needs to be updated is `mcp
 
 ### Core Components
 
-- **`main.py`**: Entry point and CLI orchestration
+- **`scripts/main.py`**: Entry point and CLI orchestration
 - **`mcp_generator.py`**: Core MCP server generation logic
 - **`parser.py`**: OpenAPI spec parsing and validation
 - **`auth_handler.py`**: Authentication method extraction and enforcement
 - **`filter.py`**: Endpoint filtering by tags
+- **`filter_risky_LLM.py`**: Risk filtering (structural + LLM semantic categories)
+- **`merge_operations.py`**: List/detail GET operation merging
 - **`env_generator.py`**: Environment file generation
+
+## 🤖 LLM Risk Filtering
+
+Risk filtering combines:
+
+- **Structural categories**:
+  - `Destructive` (HTTP `DELETE`)
+  - `Deprecated` (operation has `deprecated: true`)
+- **Semantic LLM categories**:
+  - `Authentication`
+  - `Access Control & Authorization`
+  - `System Configuration`
+
+Semantic categories are applied conservatively and then included/excluded with the same CLI flow as other filters.
+
+## 🔐 Azure OpenAI Setup (for LLM filtering)
+
+We used Azure OpenAI for our LLM filtering setup in this project, but you can use whichever provider/setup you prefer as long as your integration supplies equivalent semantic labels.
+
+If you use the current Azure-based implementation, set:
+
+```bash
+AZURE_OPENAI_API_KEY=<your_key>
+AUTOMCP_AZURE_OPENAI_ENDPOINT=https://<your-resource>.openai.azure.com/
+AUTOMCP_AZURE_OPENAI_API_VERSION=2025-01-01-preview
+AUTOMCP_AZURE_OPENAI_MODEL=gpt-4.1
+```
 
 ### Generated Code Structure
 
