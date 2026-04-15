@@ -61,7 +61,7 @@ python scripts/main.py \
 - `--output, -o`: Output directory for generated files **[Required]**
 - `--include-tags`: Comma-separated list of tags to include to select the tools you want in the generated MCP Server
 - `--exclude-tags`: Comma-separated list of tags to exclude the tools you don't need if any
-- `--include`: Keep categories that would otherwise be filtered. Repeatable. Supported values: `deprecated`, `destructive`, `auth`, `authorization`, `settings` (legacy aliases: `admin` -> `settings`, `security` -> `authorization`)
+- `--include`: Keep categories that would otherwise be filtered. Repeatable. Supported values: `deprecated`, `destructive`, `auth`, `authorization`, `settings` 
 - `--disable-id-merge`: Disable list/detail GET merge step
 - `--stub-only`: Regenerate `server_stub.py` only (skips `.env` generation and log files)
 
