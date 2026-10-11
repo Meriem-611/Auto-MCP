@@ -96,17 +96,21 @@ def merge_operations(spec, output_dir, disable_merge=False, skip_logs=False):
                 }
             
             # Categorize operation
+            # parameters may be declared once at path-item level (shared by all methods)
+            path_level_params = [p for p in (methods.get('parameters') or []) if isinstance(p, dict)]
             if has_id:
                 base_path_groups[base]['detail_ops'].append({
                     'path': path,
                     'method': method,
-                    'operation': op
+                    'operation': op,
+                    'path_level_params': path_level_params
                 })
             else:
                 base_path_groups[base]['list_ops'].append({
                     'path': path,
                     'method': method,
-                    'operation': op
+                    'operation': op,
+                    'path_level_params': path_level_params
                 })
     
     # Find groups that can be merged (have both list and detail operations)
@@ -230,7 +234,9 @@ def merge_operation_pair(list_op, detail_op):
     
     # Extract parameters from detail operation
     detail_path = detail_op['path']
-    detail_params = detail_op['operation'].get('parameters', [])
+    # include path-item-level parameters, otherwise the identifier of the item
+    # operation is lost and the merged tool can only call the collection endpoint
+    detail_params = list(detail_op.get('path_level_params') or []) + list(detail_op['operation'].get('parameters') or [])
     
     # Get all path parameters from detail operation
     detail_path_params = []
