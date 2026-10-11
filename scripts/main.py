@@ -15,6 +15,7 @@ from filter_risky_LLM import filter_risky_endpoints_llm
 from merge_operations import merge_operations
 from env_generator import generate_env_file
 from mcp_generator import generate_mcp_stub
+import selection as tool_selection
 import time
 
 
@@ -92,6 +93,8 @@ def main():
     parser.add_argument('--disable-id-merge', action='store_true', help='Disable merging of list/detail operations into single tools')
     parser.add_argument('--stub-only', action='store_true', help='Only regenerate server_stub.py (skip .env generation and log files)')
     parser.add_argument('--ignore-config', action='store_true', help='Ignore saved generation config and use only CLI arguments')
+    parser.add_argument('--list-tags', action='store_true', help='List the categories (OpenAPI tags) with tool counts and exit without generating')
+    parser.add_argument('--interactive', action='store_true', help='Choose categories and tools in an interactive checklist before generating')
     args = parser.parse_args()
 
     # Load saved config if it exists and user hasn't explicitly ignored it
@@ -140,6 +143,7 @@ def main():
         if args.auth:
             enforce_auth_method(auth_methods, args.auth)
         start_filter = time.time()
+        tag_filtered_spec = filter_endpoints_by_tags(spec, args.include_tags, args.exclude_tags)
         filtered_spec = filter_endpoints_by_tags(spec, args.include_tags, args.exclude_tags)
         print(f"[INFO] Done filtering endpoints by tags in {time.time() - start_filter:.2f}s")
         print(f"DEBUG: Type after filter_endpoints_by_tags: {type(filtered_spec)}")
@@ -160,6 +164,23 @@ def main():
         )
         print(f"[INFO] Done filtering risky endpoints in {time.time() - start_risky_filter:.2f}s")
         print(f"DEBUG: Type after filter_risky_endpoints_llm: {type(filtered_spec)}")
+
+        # Tool selection: --list-tags, --interactive, or a previously saved selection
+        saved_selection = None if args.ignore_config else tool_selection.load_selection(args.output)
+        if args.list_tags or args.interactive or saved_selection:
+            catalog = tool_selection.build_catalog(tag_filtered_spec, filtered_spec, filtered_ops, args.disable_id_merge)
+            if args.list_tags:
+                tool_selection.print_catalog(catalog, api_name)
+                return
+            chosen = saved_selection
+            if args.interactive:
+                chosen = tool_selection.run_interactive(catalog, api_name, saved_selection)
+                if chosen is None:
+                    sys.exit(0)
+                tool_selection.save_selection(args.output, chosen, api_name)
+            else:
+                print(f"[INFO] Applying saved tool selection ({tool_selection.SELECTION_FILE}); use --interactive to change it")
+            filtered_spec = tool_selection.apply_selection(tag_filtered_spec, filtered_spec, chosen)
         
         # Apply operation merging (list/detail merge)
         start_merge = time.time()

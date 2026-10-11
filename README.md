@@ -64,6 +64,24 @@ python scripts/main.py \
 - `--include`: Keep categories that would otherwise be filtered. Repeatable. Supported values: `deprecated`, `destructive`, `auth`, `authorization`, `settings` 
 - `--disable-id-merge`: Disable list/detail GET merge step
 - `--stub-only`: Regenerate `server_stub.py` only (skips `.env` generation and log files)
+- `--list-tags`: List the categories (OpenAPI tags) with the number of tools after default filtering/merging, and exit without generating
+- `--interactive`: Choose categories and individual tools in an interactive checklist before generating (see below)
+
+### Choosing which tools to generate (`--interactive`)
+
+```bash
+python main.py -i spec.yaml -o my_mcp --interactive
+```
+
+Nothing is pre-ticked: you tick only what you need. The tools offered are AutoMCP's safe defaults (filtering + list/detail merging), and every list starts with an **ALL** entry (or press `a`) to select everything.
+
+1. **Categories**: tick the categories (OpenAPI tags) you need, or **ALL categories**.
+2. **Tools**: include all tools of the selected categories, or choose tools category by category (each list has **ALL tools in <category>**). Merged list/detail pairs appear as one tool.
+3. **Hidden endpoints** (optional, advanced): endpoints removed by the safety filter (destructive, authentication, authorization, settings, deprecated) are not shown in the lists. At the end you can review them kind by kind, with a warning, and enable some or all of them.
+
+Keys: `space` select/unselect, `a` select all, `n` select none, `Enter` confirm, `Esc` go back one step (your ticks are kept), `Ctrl+C` cancel. When you re-run with `--interactive`, your previous choices are pre-ticked.
+
+The MCP server is generated only after you confirm. Your choices are saved in `<output>/.automcp_selection.json` as changes relative to the defaults and are reused on later runs: tools you removed stay removed, while anything newly enabled (e.g. with `--include` or `--include-tags`) is added automatically. Run with `--interactive` again to change the selection, or delete the file to return to the defaults.
 
 ## 📁 Generated Files
 
