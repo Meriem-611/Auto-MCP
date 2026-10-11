@@ -95,6 +95,7 @@ def main():
     parser.add_argument('--ignore-config', action='store_true', help='Ignore saved generation config and use only CLI arguments')
     parser.add_argument('--list-tags', action='store_true', help='List the categories (OpenAPI tags) with tool counts and exit without generating')
     parser.add_argument('--interactive', action='store_true', help='Choose categories and tools in an interactive checklist before generating')
+    parser.add_argument('--typed-body', action='store_true', help='Declare the fields of JSON request bodies as typed tool parameters instead of one free-form dict')
     args = parser.parse_args()
 
     # Load saved config if it exists and user hasn't explicitly ignored it
@@ -197,7 +198,7 @@ def main():
         
         print("DEBUG: About to generate MCP server stub...")
         start_stub = time.time()
-        generate_mcp_stub(filtered_spec, args.output, stub_only=args.stub_only)
+        generate_mcp_stub(filtered_spec, args.output, stub_only=args.stub_only, typed_body=args.typed_body)
         print(f"DEBUG: Finished generating MCP server stub in {time.time() - start_stub:.2f}s.")
         
         # Save generation config for future regenerations (only if not stub-only or if it's a full generation)
