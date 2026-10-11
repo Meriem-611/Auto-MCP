@@ -66,6 +66,7 @@ python scripts/main.py \
 - `--stub-only`: Regenerate `server_stub.py` only (skips `.env` generation and log files)
 - `--list-tags`: List the categories (OpenAPI tags) with the number of tools after default filtering/merging, and exit without generating
 - `--interactive`: Choose categories and individual tools in an interactive checklist before generating (see below)
+- `--typed-body`: Declare the fields of JSON request bodies as typed tool parameters (in the tool's input schema) instead of one free-form `body` dict. Off by default; pass it on every run (it is not saved in `.automcp_config.json`)
 
 ### Choosing which tools to generate (`--interactive`)
 
@@ -82,6 +83,18 @@ Nothing is pre-ticked: you tick only what you need. The tools offered are AutoMC
 Keys: `space` select/unselect, `a` select all, `n` select none, `Enter` confirm, `Esc` go back one step (your ticks are kept), `Ctrl+C` cancel. When you re-run with `--interactive`, your previous choices are pre-ticked.
 
 The MCP server is generated only after you confirm. Your choices are saved in `<output>/.automcp_selection.json` as changes relative to the defaults and are reused on later runs: tools you removed stay removed, while anything newly enabled (e.g. with `--include` or `--include-tags`) is added automatically. Run with `--interactive` again to change the selection, or delete the file to return to the defaults.
+
+### Windows executable (`automcp.exe`)
+
+`dist\automcp.exe` runs AutoMCP without installing Python. It takes the same options as `python scripts/main.py` (Windows cmd):
+
+```bat
+dist\automcp.exe -i OpenAPI_examples\circleci.yaml -o circleci_mcp
+dist\automcp.exe -i OpenAPI_examples\circleci.yaml -o circleci_mcp --list-tags
+dist\automcp.exe -i OpenAPI_examples\circleci.yaml -o circleci_mcp --interactive
+```
+
+No API key is bundled: for the LLM risk filter, set the Azure OpenAI variables in the environment (see [Azure OpenAI Setup](#-azure-openai-setup-for-llm-filtering)). Running the generated server still needs Python and the packages in `requirements.txt`. To rebuild the executable, run `build_exe.bat` from the repository root (Python 3.10+).
 
 ## 📁 Generated Files
 
@@ -318,6 +331,13 @@ Optionally, you can use `SpecFixer` with AutoMCP in either of these ways:
 - **After AutoMCP generation**: if you notice spec quality issues during or after server generation, run SpecFixer on the OpenAPI file and regenerate.
 
 For complete SpecFixer usage, read `SpecFixer/README.md`.
+
+## 📝 Changes
+
+- **List/detail merge:** path parameters declared at path-item level (not inside the operation) are now carried into the merged tool, so it can call the detail endpoint. Before, the merged tool lost the item identifier (e.g. Honeycomb `/1/boards/{boardId}`).
+- **Generated docstrings:** a tool description ending with a quote or a backslash no longer produces a syntax error in `server_stub.py` (e.g. the Mailgun specification).
+- **Error responses:** generated tools now return the body of an HTTP error response, not only the status line, so the client can see why a call was rejected.
+- **New:** options `--list-tags`, `--interactive` and `--typed-body`, and the Windows executable `automcp.exe`.
 
 ## 🤝 Contributing
 
