@@ -871,6 +871,11 @@ def token_client_credentials():
                 f.write(f"{indent*4}return resp.json()\n")
                 f.write(f"{indent*3}else:\n")
                 f.write(f"{indent*4}return {{'raw': resp.text, 'status_code': resp.status_code}}\n")
+                # return the body of an error response, so that the client can see why the API
+                # rejected the call (for example which required parameter is missing) and correct it
+                f.write(f"{indent*2}except requests.exceptions.HTTPError as e:\n")
+                f.write(f"{indent*3}detail = e.response.text[:1000] if e.response is not None else ''\n")
+                f.write(f"{indent*3}raise ValueError(f'HTTP request failed: {{str(e)}}. Response body: {{detail}}')\n")
                 f.write(f"{indent*2}except requests.exceptions.RequestException as e:\n")
                 f.write(f"{indent*3}raise ValueError(f'HTTP request failed: {{str(e)}}')\n")
                 f.write(f"{indent*2}except Exception as e:\n")
