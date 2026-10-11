@@ -687,6 +687,10 @@ def token_client_credentials():
                     # Replace both triple double and triple single quotes with safe placeholders
                     description = description.replace('"""', '[TRIPLE_DQ]')
                     description = description.replace("'''", '[TRIPLE_SQ]')
+                    # a description ending with a quote or a backslash would merge with the
+                    # closing delimiter of the generated docstring and produce a syntax error
+                    if description.endswith(("'", "\\")):
+                        description += ' '
                     docstring_delim = "'''"
                 else:
                     description = f'Auto-generated MCP handler for {http_method} {path}'
